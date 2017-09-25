@@ -9,14 +9,11 @@ RUN apt-get update --fix-missing && apt-get install -y font-manager python-setup
 # fix locale
 CMD LC_ALL=C
 
-# intall pip
-CMD sudo easy_install pip
+# install Jupyter using conda
+CMD /opt/conda/bin/conda install jupyter lxml numba -y --quiet
 
 # install pyteomics
-CMD sudo pip install lxml numpy matplotlib pyteomics
-
-# install Jupyter using conda
-CMD /opt/conda/bin/conda install jupyter -y --quiet
+CMD sudo pip install -y pyteomics
 
 # clear cache
 CMD rm -rf ~/.cache/matplotlib
