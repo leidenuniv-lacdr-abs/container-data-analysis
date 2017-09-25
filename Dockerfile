@@ -12,11 +12,11 @@ CMD LC_ALL=C
 # install Jupyter using conda
 CMD /opt/conda/bin/conda install jupyter lxml numba -y --quiet
 
-# install pyteomics
-CMD pip install pyteomics
-
 # clear cache
 CMD rm -rf ~/.cache/matplotlib
+
+# add some additional python packages
+CMD /bin/bash -c "pip install pyteomics"
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
