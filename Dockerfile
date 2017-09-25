@@ -13,7 +13,7 @@ CMD LC_ALL=C
 CMD /opt/conda/bin/conda install jupyter lxml numba -y --quiet
 
 # install pyteomics
-CMD sudo pip install -y pyteomics
+CMD pip install pyteomics
 
 # clear cache
 CMD rm -rf ~/.cache/matplotlib
