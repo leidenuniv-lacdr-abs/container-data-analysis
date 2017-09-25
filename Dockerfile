@@ -15,8 +15,8 @@ CMD /opt/conda/bin/conda install jupyter lxml numba -y --quiet
 # clear cache
 CMD rm -rf ~/.cache/matplotlib
 
-# add some additional python packages
-CMD /bin/bash -c "pip install pyteomics"
+COPY requirements.txt requirements.txt
+RUN /opt/conda/bin/pip install -r requirements.txt
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
