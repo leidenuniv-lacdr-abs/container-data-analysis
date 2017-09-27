@@ -10,7 +10,7 @@ RUN apt-get update --fix-missing && apt-get install -y font-manager python-setup
 CMD LC_ALL=C
 
 # install Jupyter using conda
-CMD /opt/conda/bin/conda install jupyter lxml numba -y --quiet
+CMD /opt/conda/bin/conda install jupyter lxml numba line_profiler -y --quiet
 
 # clear cache
 CMD rm -rf ~/.cache/matplotlib
