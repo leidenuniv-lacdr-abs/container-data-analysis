@@ -1,1 +1,3 @@
-pyteomics
+pyteomics==3.4.2
+line-profiler==2.0
+bash_kernel
