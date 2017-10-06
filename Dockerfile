@@ -1,5 +1,5 @@
 # Start with full anaconda (Python 3) distribution
-FROM continuumio/anaconda3
+FROM continuumio/anaconda3:4.4.0
 
 MAINTAINER Michael van Vliet <m.s.vanvliet@lacdr.leidenuniv.nl>
 
@@ -21,7 +21,7 @@ RUN apt-get update --fix-missing && apt-get install -y --force-yes \
 RUN LC_ALL=C
 
 # install conda packages
-RUN /opt/conda/bin/conda install jupyter lxml numba -y --quiet
+RUN /opt/conda/bin/conda install jupyter lxml blaze numba h5py -y --quiet
 
 COPY requirements.txt requirements.txt
 RUN /opt/conda/bin/pip install -r requirements.txt
