@@ -2,6 +2,7 @@
 #docker pull michaelvanvliet/container-data-analysis  # update to latest version
 #docker run -i -t -v ${PWD}/workspace:/workspace -p 8888:8888 michaelvanvliet/container-data-analysis:latest /bin/bash -c "/opt/conda/bin/jupyter notebook --notebook-dir=/workspace --ip='*' --port=8888 --no-browser --allow-root"
 
+# use docker compose to setup environment
 docker-compose up
 # docker-compose up --build
 
