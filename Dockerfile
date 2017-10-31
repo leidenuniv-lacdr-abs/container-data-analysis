@@ -10,7 +10,7 @@ RUN apt-get update --fix-missing && apt-get install -y --force-yes \
     libapparmor1 libssh2-1 libssh2-1-dev curl nano libpng-dev
 
 # install conda packages
-RUN /opt/conda/bin/conda install jupyter lxml blaze numba h5py r-essentials -y --quiet
+RUN /opt/conda/bin/conda install jupyter lxml blaze numba h5py docopt r-essentials -y --quiet
 
 COPY requirements.txt requirements.txt
 RUN /opt/conda/bin/pip install -r requirements.txt
