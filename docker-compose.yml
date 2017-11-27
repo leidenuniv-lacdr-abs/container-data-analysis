@@ -6,7 +6,7 @@ services:
     ports:
      - "8888:8888"
     volumes:
-     - ../../workspace:/workspace
+     - workspace:/workspace
     command:
      - jupyter.sh
   rstudio:
@@ -16,10 +16,10 @@ services:
     ports:
      - "8787:8787"
     volumes:
-     - ../../workspace:/home/rstudio
+     - workspace:/home/rstudio
   xcms:
     image: container-registry.phenomenal-h2020.eu/phnmnl/xcms:dev_v1.52.0_cv0.8.69
     environment:
      - ROOT=TRUE
     volumes:
-     - ../../workspace:/workspace
+     - workspace:/workspace
