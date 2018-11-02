@@ -3,7 +3,8 @@ FROM centos:centos7.4.1708
 LABEL maintainer="m.s.vanvliet@lacdr.leidenuniv.nl"
 
 ARG anaconda_installer=Anaconda3-5.2.0-Linux-x86_64.sh
-ARG rstudio_server_installer=rstudio-server-rhel-1.1.456-x86_64.rpm
+# ARG rstudio_server_installer=rstudio-server-rhel-1.1.456-x86_64.rpm
+ARG rstudio_server_installer=rstudio-server-rhel-1.1.383-x86_64.rpm
 
 RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
     echo "alias R='/tmp/anaconda3/bin/R'" >> /etc/profile && \
@@ -17,7 +18,7 @@ RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
 RUN echo "Install RStudio and Jupyter(hub/labs) and dependencies" && \
     source /etc/profile && \
     yum update -y && yum groupinstall -y "Development tools" && yum install epel-release -y && \
-    yum install -y cairo-devel libjpeg-turbo-devel nodejs openssl nano htop git wget R && \
+    yum install -y cairo-devel libjpeg-turbo-devel nodejs openssl nano htop git wget && \
     npm install -g configurable-http-proxy && \
     curl -O https://repo.continuum.io/archive/$anaconda_installer && bash $anaconda_installer -b -f -p /tmp/anaconda3 && rm -rf $anaconda_installer && \
     conda install -n base conda && \
@@ -36,6 +37,7 @@ RUN echo "Install RStudio and Jupyter(hub/labs) and dependencies" && \
     curl -O https://download2.rstudio.org/$rstudio_server_installer && \
     yum install -y $rstudio_server_installer initscripts && rm -rf $rstudio_server_installer && \
     echo 'www-port=8787' > /etc/rstudio/rserver.conf && \
+    echo 'rsession-which-r=/tmp/anaconda3/bin/R' > /etc/rstudio/rserver.conf && \
     rstudio-server verify-installation && \
     conda clean --all && \
     yum clean all && \
