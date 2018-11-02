@@ -3,8 +3,8 @@ FROM centos:centos7.4.1708
 LABEL maintainer="m.s.vanvliet@lacdr.leidenuniv.nl"
 
 ARG anaconda_installer=Anaconda3-5.2.0-Linux-x86_64.sh
-# ARG rstudio_server_installer=rstudio-server-rhel-1.1.456-x86_64.rpm
-ARG rstudio_server_installer=rstudio-server-rhel-1.1.383-x86_64.rpm
+ARG rstudio_server_installer=rstudio-server-rhel-1.1.456-x86_64.rpm
+#ARG rstudio_server_installer=rstudio-server-rhel-1.1.383-x86_64.rpm
 
 RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
     echo "alias R='/tmp/anaconda3/bin/R'" >> /etc/profile && \
