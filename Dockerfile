@@ -17,7 +17,7 @@ RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> ~/.bashrc && \
 RUN echo "Install RStudio and Jupyter(hub/labs) and dependencies" && \
     source ~/.bashrc && \
     yum update -y && yum groupinstall -y "Development tools" && yum install epel-release -y && \
-    yum install -y cairo-devel libjpeg-turbo-devel nodejs openssl nano htop git R && \
+    yum install -y cairo-devel libjpeg-turbo-devel nodejs openssl nano htop git wget R && \
     npm install -g configurable-http-proxy && \
     curl -O https://repo.continuum.io/archive/$anaconda_installer && bash $anaconda_installer -b -f -p /tmp/anaconda3 && rm -rf $anaconda_installer && \
     conda install -n base conda && \
