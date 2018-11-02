@@ -5,17 +5,17 @@ LABEL maintainer="m.s.vanvliet@lacdr.leidenuniv.nl"
 ARG anaconda_installer=Anaconda3-5.2.0-Linux-x86_64.sh
 ARG rstudio_server_installer=rstudio-server-rhel-1.1.456-x86_64.rpm
 
-RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> ~/.bashrc && \
-    echo "alias R='/tmp/anaconda3/bin/R'" >> ~/.bashrc && \
-    echo "alias Rscript='/tmp/anaconda3/bin/Rscript'" >> ~/.bashrc && \
-    echo "alias pip='/tmp/anaconda3/bin/pip'" >> ~/.bashrc && \        
-    echo "alias python='/tmp/anaconda3/bin/python'" >> ~/.bashrc && \            
-    echo "alias conda='/tmp/anaconda3/bin/conda'" >> ~/.bashrc && \
-    echo "alias jupyter='/tmp/anaconda3/bin/jupyter'" >> ~/.bashrc && \
-    echo "alias jupyterhub='/tmp/anaconda3/bin/jupyterhub'" >> ~/.bashrc
+RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
+    echo "alias R='/tmp/anaconda3/bin/R'" >> /etc/profile && \
+    echo "alias Rscript='/tmp/anaconda3/bin/Rscript'" >> /etc/profile && \
+    echo "alias pip='/tmp/anaconda3/bin/pip'" >> /etc/profile && \        
+    echo "alias python='/tmp/anaconda3/bin/python'" >> /etc/profile && \            
+    echo "alias conda='/tmp/anaconda3/bin/conda'" >> /etc/profile && \
+    echo "alias jupyter='/tmp/anaconda3/bin/jupyter'" >> /etc/profile && \
+    echo "alias jupyterhub='/tmp/anaconda3/bin/jupyterhub'" >> /etc/profile
 
 RUN echo "Install RStudio and Jupyter(hub/labs) and dependencies" && \
-    source ~/.bashrc && \
+    source /etc/profile && \
     yum update -y && yum groupinstall -y "Development tools" && yum install epel-release -y && \
     yum install -y cairo-devel libjpeg-turbo-devel nodejs openssl nano htop git wget R && \
     npm install -g configurable-http-proxy && \
