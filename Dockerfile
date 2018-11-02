@@ -55,4 +55,22 @@ RUN source /etc/profile && \
     pip install bash_kernel && python -m bash_kernel.install && \
     conda clean --all
 
+RUN source /etc/profile && \
+    mkdir -p /usr/share/doc/R-3.5.1/html/ && \
+    echo "# Install script IRkernel" > rkernel_install.R && \
+    echo "install.packages('git2r', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \    
+    echo "install.packages('usethis', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \        
+    echo "install.packages('essentials', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('pbdzmq', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('repr', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('irdisplay', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('evaluate', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
+    echo "install.packages('crayon', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('uuid', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('digest', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('memoise', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
+    echo "install.packages('devtools', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \ 
+    echo "devtools::install_github('IRkernel/IRkernel')" >> rkernel_install.R && \    
+    Rscript rkernel_install.R
+
 CMD ["/tmp/anaconda3/bin/jupyterhub --help"]
