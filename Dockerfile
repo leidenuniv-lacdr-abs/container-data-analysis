@@ -10,8 +10,8 @@ RUN curl -O https://download2.rstudio.org/$rstudio_server_installer && \
     curl -O https://repo.continuum.io/archive/$anaconda_installer
 
 RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
-    echo "alias R='/usr/bin/R'" >> /etc/profile && \
-    echo "alias Rscript='/usr/bin/Rscript'" >> /etc/profile && \
+    echo "alias R='/tmp/anaconda3/bin/R'" >> /etc/profile && \
+    echo "alias Rscript='/tmp/anaconda3/bin/Rscript'" >> /etc/profile && \
     echo "alias pip='/tmp/anaconda3/bin/pip'" >> /etc/profile && \        
     echo "alias python='/tmp/anaconda3/bin/python'" >> /etc/profile && \            
     echo "alias conda='/tmp/anaconda3/bin/conda'" >> /etc/profile && \
@@ -21,7 +21,7 @@ RUN echo "export PATH=\"/tmp/anaconda3/bin:$PATH\"" >> /etc/profile && \
 RUN echo "Install OS dependencies" && \
     source /etc/profile && \
     yum update -y && yum groupinstall -y "Development tools" && yum install epel-release -y && \
-    yum install -y cairo-devel libjpeg-turbo-devel openssl-devel libpng-devel libxml2-devel libcurl-devel libssh2-devel libgit2-devel nodejs openssl nano htop git wget && \
+    yum install -y libunwind cairo-devel libjpeg-turbo-devel openssl-devel libpng-devel libxml2-devel libcurl-devel libssh2-devel libgit2-devel nodejs openssl nano htop git wget && \
     npm install -g configurable-http-proxy && \
     yum clean all && \
     rm -rf /var/cache/yum    
@@ -34,7 +34,7 @@ RUN echo "Install RStudio" && \
     rstudio-server verify-installation && \
     systemctl enable rstudio-server.service && \
     yum clean all && \
-    rm -rf /var/cache/yum    
+    rm -rf /var/cache/yum       
 
 RUN echo "Install Jupyter(hub/labs) and dependencies" && \
     source /etc/profile && \
@@ -48,7 +48,7 @@ RUN echo "Install Jupyter(hub/labs) and dependencies" && \
     echo >> /etc/jupyterhub/jupyterhub_config.py && \
     echo "c.Spawner.cmd = ['/tmp/anaconda3/bin/jupyter-labhub']" >> /etc/jupyterhub/jupyterhub_config.py && \
     echo >> /etc/jupyterhub/jupyterhub_config.py && \
-    echo '{"argv": ["/usr/bin/R", "--slave", "-e", "IRkernel::main()", "--args", "{connection_file}"], "display_name":"R", "language":"R"}' > /tmp/anaconda3/share/jupyter/kernels/ir/kernel.json
+    echo '{"argv": ["/tmp/anaconda3/bin/R", "--slave", "-e", "IRkernel::main()", "--args", "{connection_file}"], "display_name":"R", "language":"R"}' > /tmp/anaconda3/share/jupyter/kernels/ir/kernel.json
 
 RUN source /etc/profile && \
     echo "Install bash kernel" && \
@@ -57,20 +57,20 @@ RUN source /etc/profile && \
 
 RUN source /etc/profile && \
     mkdir -p /usr/share/doc/R-3.5.1/html/ && \
+    mkdir -p /tmp/R/ && \
     echo "# Install script IRkernel" > rkernel_install.R && \
-    echo "install.packages('git2r', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \    
-    echo "install.packages('usethis', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \        
-    echo "install.packages('essentials', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('pbdzmq', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('repr', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('irdisplay', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('evaluate', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
-    echo "install.packages('crayon', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('uuid', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('digest', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
-    echo "install.packages('memoise', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
-    echo "install.packages('devtools', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \ 
+    echo "install.packages('pbdZMQ', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('repr', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('IRdisplay', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('evaluate', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
+    echo "install.packages('crayon', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('uuid', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('digest', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
+    echo "install.packages('memoise', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \                
+    echo "install.packages('git2r', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \    
+    echo "install.packages('usethis', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \        
+    echo "install.packages('devtools', lib='/tmp/R/', repos='http://cloud.r-project.org/')" >> rkernel_install.R && \
     echo "devtools::install_github('IRkernel/IRkernel')" >> rkernel_install.R && \    
-    Rscript rkernel_install.R
+    /tmp/anaconda3/bin/Rscript rkernel_install.R     
 
 CMD ["/tmp/anaconda3/bin/jupyterhub --help"]
