@@ -15,7 +15,7 @@ RUN curl -O https://repo.anaconda.com/miniconda/$anaconda_installer && \
     echo "Install Jupyter(hub/labs) and dependencies" && \    
     bash $anaconda_installer -b -f -p /tmp/anaconda3 && rm -rf $anaconda_installer && \
     conda install -n base conda && \
-    conda install -y -c conda-forge pyzmq jupyterhub jupyterlab && \
+    conda install -y -c conda-forge pyzmq jupyterhub jupyterlab boost libiconv && \
     conda install -y -c r r-essentials r-git2r r-devtools r-pbdzmq r-repr r-irdisplay r-evaluate r-crayon r-uuid r-digest r-irkernel && \
     pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir dockerspawner && \
     jupyterhub --generate-config && mkdir /etc/jupyterhub && mv jupyterhub_config.py /etc/jupyterhub/ && \
