@@ -3,17 +3,18 @@ FROM centos:centos7.4.1708
 LABEL maintainer="m.s.vanvliet@lacdr.leidenuniv.nl"
 
 ARG anaconda_installer=Miniconda3-4.5.11-Linux-x86_64.sh
-
+    
 # download required version
 RUN curl -O https://repo.anaconda.com/miniconda/$anaconda_installer && \
     echo "export PATH=\"/tmp/anaconda3/bin:/tmp/anaconda3/lib:$PATH\"" >> /etc/profile
-    
+
 RUN echo "Install OS dependencies" && \
-    source /etc/profile && \    
+    source /etc/profile && \ 
+    yum install -y libXcomposite libXcursor libXi libXtst libXrandr alsa-lib mesa-libEGL libXdamage mesa-libGL libXScrnSaver && \   
     yum update -y && yum groupinstall -y "Development tools" && yum install epel-release -y && \
     yum install -y libunwind libXt cairo-devel libjpeg-turbo-devel openssl-devel libpng-devel libxml2-devel libcurl-devel libssh2-devel libgit2-devel nodejs openssl nano htop git wget && \
     npm install -g configurable-http-proxy && \
-    conda clean --all && yum clean all && rm -rf /var/cache/yum   
+    yum clean all && rm -rf /var/cache/yum   
     
 RUN echo "Install Jupyter(hub/labs) and dependencies" && \    
     source /etc/profile && \
